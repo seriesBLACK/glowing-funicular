@@ -9,6 +9,7 @@ download_progress = ""
 
 @app.route('/progress')
 def progress_hook(d):
+    download_progress = ""
     if d['status'] == 'downloading':
         download_progress = [str(round(float(
             d['downloaded_bytes'])/float(d['total_bytes'])*100, 1)), d['speed']]
