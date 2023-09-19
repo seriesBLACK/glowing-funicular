@@ -18,12 +18,10 @@ def progress_hook(d):
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
-    # Get the user's home directory
-    home_dir = os.path.expanduser("~")
 
     # Define the subfolder for downloads
-    download_folder = os.path.join(home_dir, "Downloads")
-
+    download_folder = os.path.join(app.root_path, "Downloads")
+    print(download_folder)
     # Ensure the download folder exists, and create it if not
     os.makedirs(download_folder, exist_ok=True)
     if request.method == 'POST':
@@ -37,6 +35,7 @@ def index():
                 'quiet': True,
                 'no_warnings': True,
                 'outtmpl': os.path.join(download_folder, '%(title)s.%(ext)s')
+
             }
         else:
             ydl_opts = {'format': 'bestaudio/best',
@@ -44,8 +43,8 @@ def index():
                         'quiet': True,
                         'no_warnings': True,
                         'outtmpl': os.path.join(download_folder, '%(title)s.%(ext)s')
-                        }
 
+                        }
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             try:
                 ydl.download([str(data)])
