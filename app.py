@@ -49,7 +49,7 @@ def index():
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             try:
                 ydl.download([str(data)])
-                return make_response("<h1>Success</h1>", 201)
+                return make_response(download_folder, 201)
             except yt_dlp.utils.DownloadError as e:
                 return make_response(f"<h1>{e}</h1>", 407)
 
@@ -63,5 +63,4 @@ def get_progress():
 
 if __name__ == "__main__":
     from waitress import serve
-    # app.run(debug=True)
     serve(app, host="0.0.0.0", port=8080)

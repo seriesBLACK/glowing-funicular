@@ -44,7 +44,6 @@ function updateProgress() {
     .then(response => response.json())
     .then(data => {
       if (data.progress) {
-        console.log("res riceved")
         const readAbleSpeed = convert_bytes_to_readable(data.progress[1]);
         progressEl.innerText = readAbleSpeed;
         progressBarEl.value = data.progress[0];
