@@ -20,8 +20,9 @@ def progress_hook(d):
 def index():
 
     # Define the subfolder for downloads
-    download_folder = os.path.join(app.root_path, "Downloads")
-    print(download_folder)
+    # download_folder = os.path.join(app.root_path, "Downloads")
+    # print(download_folder)
+    download_folder = "C:\\Users\\series black\\Desktop\\Downloads"
     # Ensure the download folder exists, and create it if not
     os.makedirs(download_folder, exist_ok=True)
     if request.method == 'POST':
@@ -61,5 +62,6 @@ def get_progress():
 
 
 if __name__ == "__main__":
-    from waitress import serve
-    serve(app, host="0.0.0.0", port=8080)
+    # from waitress import serve
+    app.run(debug=True)
+    # serve(app, host="0.0.0.0", port=8080)
