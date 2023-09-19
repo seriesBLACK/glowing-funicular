@@ -7,16 +7,15 @@ app = Flask(__name__)
 app.static_url_path = '/static'
 download_progress = ""
 
-@app.route('/progress')
+
 def progress_hook(d):
-    download_progress = ""
+    global download_progress
     if d['status'] == 'downloading':
         download_progress = [str(round(float(
             d['downloaded_bytes'])/float(d['total_bytes'])*100, 1)), d['speed']]
 
-
-    return jsonify({"progress": download_progress})
-
+    else:
+        download_progress = "download is done"
 
 
 @app.route('/', methods=['POST', 'GET'])
@@ -57,6 +56,10 @@ def index():
 
     return render_template('index.html')
 
+
+@app.route('/progress')
+def get_progress():
+    return jsonify({"progress": download_progress})
 
 
 if __name__ == "__main__":
