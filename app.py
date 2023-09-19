@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, render_template, jsonify, make_response
 import yt_dlp
 import os
 
@@ -14,8 +14,6 @@ def progress_hook(d):
         download_progress = [str(round(float(
             d['downloaded_bytes'])/float(d['total_bytes'])*100, 1)), d['speed']]
 
-    else:
-        download_progress = "download is done"
 
 
 @app.route('/', methods=['POST', 'GET'])
@@ -51,8 +49,9 @@ def index():
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             try:
                 ydl.download([str(data)])
+                return make_response("<h1>Success</h1>", 201)
             except yt_dlp.utils.DownloadError as e:
-                return f"<h1>{e}</h1>"
+                return make_response(f"<h1>{e}</h1>", 407)
 
     return render_template('index.html')
 
@@ -64,4 +63,5 @@ def get_progress():
 
 if __name__ == "__main__":
     from waitress import serve
+    # app.run(debug=True)
     serve(app, host="0.0.0.0", port=8080)
